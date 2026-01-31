@@ -1,17 +1,17 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:8080/api"
+  baseURL: "http://localhost:8080"
 });
 
-export const getDestinations = () =>
-  API.get("/destinations");
+export const getItineraries = () =>
+  API.get("/api/itineraries");
 
-export const addDestination = (destination) =>
-  API.post("/destinations", destination);
+export const addItinerary = (data) =>
+  API.post("/api/itineraries", data);
 
-export const updateDestination = (id, destination) =>
-  API.put(`/destinations/${id}`, destination);
+export const updateItinerary = (id, data) =>
+  API.put(`/api/itineraries/${id}`, data);
 
-export const deleteDestination = (id) =>
-  API.delete(`/destinations/${id}`);
+export const deleteItinerary = (id) =>
+  API.delete(`/api/itineraries/${id}`);
