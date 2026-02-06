@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  getDestinations,
-  addDestination,
-  deleteDestination,
-  updateDestination
-} from "./api/api";
+import { getItineraries, addItinerary, updateItinerary, deleteItinerary } from "./api/api";
 
 function App() {
   const [destinations, setDestinations] = useState([]);
@@ -16,44 +11,45 @@ function App() {
   }, []);
 
   const loadData = async () => {
-    const res = await getDestinations();
-    setDestinations(res.data);
+    try {
+      const res = await getItineraries();
+      setDestinations(res.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const save = async () => {
+    if (!name) return;
     if (editId) {
-      await updateDestination(editId, { name });
+      await updateItinerary(editId, { name });
       setEditId(null);
     } else {
-      await addDestination({ name });
+      await addItinerary({ name });
     }
     setName("");
     loadData();
   };
 
-  const edit = (destination) => {
-    setEditId(destination.id);
-    setName(destination.name);
+  const edit = (d) => {
+    setEditId(d.id);
+    setName(d.name);
   };
 
   const remove = async (id) => {
-    await deleteDestination(id);
+    await deleteItinerary(id);
     loadData();
   };
 
   return (
     <div style={{ padding: "20px" }}>
       <h2>Travel Itinerary</h2>
-
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Destination"
       />
-      <button onClick={save}>
-        {editId ? "Update" : "Add"}
-      </button>
-
+      <button onClick={save}>{editId ? "Update" : "Add"}</button>
       <ul>
         {destinations.map((d) => (
           <li key={d.id}>
