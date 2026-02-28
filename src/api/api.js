@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://travel-itinerary-backend-fbud.onrender.com"  // Backend port
+  baseURL: "https://travel-itinerary-backend-fbud.onrender.com/api/destinations"  // Backend port
 });
 
 export const getItineraries = () =>
