@@ -8,6 +8,7 @@ import {
 function Itinerary() {
   const [list, setList] = useState([]);
   const [destination, setDestination] = useState("");
+  const [search, setSearch] = useState(""); // ✅ search state
 
   useEffect(() => {
     loadData();
@@ -33,26 +34,45 @@ function Itinerary() {
     deleteItinerary(id).then(loadData);
   };
 
+  // ✅ filter logic
+  const filteredList = list.filter(item =>
+    item.destination.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div style={{ padding: "20px" }}>
       <h2>Travel Itinerary</h2>
 
+      {/* Add destination */}
       <input
         type="text"
         placeholder="Destination"
         value={destination}
         onChange={(e) => setDestination(e.target.value)}
       />
-
       <button onClick={addData}>Add</button>
 
+      {/* Search box */}
+      <br /><br />
+      <input
+        type="text"
+        placeholder="Search destination..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      {/* List */}
       <ul>
-        {list.map(item => (
-          <li key={item.id}>
-            {item.destination}
-            <button onClick={() => deleteData(item.id)}>Delete</button>
-          </li>
-        ))}
+        {filteredList.length > 0 ? (
+          filteredList.map(item => (
+            <li key={item.id}>
+              {item.destination}
+              <button onClick={() => deleteData(item.id)}>Delete</button>
+            </li>
+          ))
+        ) : (
+          <p>No matching destinations found</p>
+        )}
       </ul>
     </div>
   );
