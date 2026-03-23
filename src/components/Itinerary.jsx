@@ -8,7 +8,7 @@ import {
 function Itinerary() {
   const [list, setList] = useState([]);
   const [destination, setDestination] = useState("");
-  const [search, setSearch] = useState(""); // search state
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     loadData();
@@ -30,7 +30,6 @@ function Itinerary() {
       });
   };
 
-  // ✅ Delete with confirmation
   const deleteData = (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this itinerary?");
     if (confirmDelete) {
@@ -38,23 +37,40 @@ function Itinerary() {
     }
   };
 
-  // ✅ Filter logic
   const filteredList = list.filter(item =>
     item.destination.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div style={{ padding: "10px" }}>
-      <h2>Travel Itinerary</h2>
+    <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+      <h2 style={{ textAlign: "center" }}>✈️ Travel Itinerary</h2>
 
       {/* Add destination */}
       <input
         type="text"
-        placeholder="Destination"
+        placeholder="Enter destination"
         value={destination}
         onChange={(e) => setDestination(e.target.value)}
+        style={{
+          padding: "8px",
+          width: "70%",
+          marginRight: "10px",
+          borderRadius: "5px",
+          border: "1px solid #ccc"
+        }}
       />
-      <button onClick={addData} disabled={!destination}>
+      <button
+        onClick={addData}
+        disabled={!destination}
+        style={{
+          padding: "8px 12px",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer"
+        }}
+      >
         Add
       </button>
 
@@ -62,21 +78,52 @@ function Itinerary() {
       <br /><br />
       <input
         type="text"
-        placeholder="Search destination..."
+        placeholder="🔍 Search destination..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        style={{
+          padding: "8px",
+          width: "100%",
+          borderRadius: "5px",
+          border: "1px solid #ccc"
+        }}
       />
 
       {/* Count */}
-      <p>Total: {filteredList.length}</p>
+      <p style={{ marginTop: "10px" }}>
+        Total: <b>{filteredList.length}</b>
+      </p>
 
       {/* List */}
-      <ul>
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {filteredList.length > 0 ? (
           filteredList.map(item => (
-            <li key={item.id}>
-              📍 {item.destination}
-              <button onClick={() => deleteData(item.id)}>Delete</button>
+            <li
+              key={item.id}
+              style={{
+                background: "#f9f9f9",
+                padding: "10px",
+                marginBottom: "8px",
+                borderRadius: "6px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+            >
+              <span>📍 {item.destination}</span>
+              <button
+                onClick={() => deleteData(item.id)}
+                style={{
+                  backgroundColor: "#ff4d4d",
+                  color: "white",
+                  border: "none",
+                  padding: "5px 10px",
+                  borderRadius: "5px",
+                  cursor: "pointer"
+                }}
+              >
+                Delete
+              </button>
             </li>
           ))
         ) : (
