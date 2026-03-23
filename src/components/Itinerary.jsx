@@ -44,7 +44,7 @@ function Itinerary() {
   );
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "10px" }}>
       <h2>Travel Itinerary</h2>
 
       {/* Add destination */}
