@@ -8,7 +8,7 @@ import {
 function Itinerary() {
   const [list, setList] = useState([]);
   const [destination, setDestination] = useState("");
-  const [search, setSearch] = useState(""); // ✅ search state
+  const [search, setSearch] = useState(""); // search state
 
   useEffect(() => {
     loadData();
@@ -30,11 +30,15 @@ function Itinerary() {
       });
   };
 
+  // ✅ Delete with confirmation
   const deleteData = (id) => {
-    deleteItinerary(id).then(loadData);
+    const confirmDelete = window.confirm("Are you sure you want to delete this itinerary?");
+    if (confirmDelete) {
+      deleteItinerary(id).then(loadData);
+    }
   };
 
-  // ✅ filter logic
+  // ✅ Filter logic
   const filteredList = list.filter(item =>
     item.destination.toLowerCase().includes(search.toLowerCase())
   );
@@ -50,9 +54,11 @@ function Itinerary() {
         value={destination}
         onChange={(e) => setDestination(e.target.value)}
       />
-      <button onClick={addData}>Add</button>
+      <button onClick={addData} disabled={!destination}>
+        Add
+      </button>
 
-      {/* Search box */}
+      {/* Search */}
       <br /><br />
       <input
         type="text"
@@ -61,12 +67,15 @@ function Itinerary() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
+      {/* Count */}
+      <p>Total: {filteredList.length}</p>
+
       {/* List */}
       <ul>
         {filteredList.length > 0 ? (
           filteredList.map(item => (
             <li key={item.id}>
-              {item.destination}
+              📍 {item.destination}
               <button onClick={() => deleteData(item.id)}>Delete</button>
             </li>
           ))
